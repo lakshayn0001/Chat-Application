@@ -1,4 +1,8 @@
-.Applicationdiv{
+* {
+  box-sizing: border-box;
+}
+
+.Applicationdiv {
   background-color: black;
   color: aliceblue;
   display: flex;
@@ -6,92 +10,80 @@
   width: 100vw;
 }
 
-html{
-  box-sizing: border-box;
-}
 
-.chat_option{
-  background-color: aqua;
-  color: black;
+.chat_option {
   width: 30vw;
-  display: flex;
-  flex-direction: column;
-
+  background-color: #1e1e1e;
 }
-#users{
-  background-color: antiquewhite;
-  width: 100%;
+
+.users {
+  height: 10vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  height: 10vh;
-}
-#users h1{
-  margin: 10px;
-  background-color: aquamarine;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
 }
 
-#chatmessages_area{
-  height: 90vh;
-  background-color: cadetblue;
-  display: flex;
+
+.chatarea {
   width: 70vw;
+  display: flex;
   flex-direction: column;
+}
+
+
+.chatmessages_area {
+  height: 90vh;
+  padding: 15px;
+  background-color: #0f172a;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   overflow-y: auto;
 }
-#message_area{
-  display: flex;
-  background-color:cornflowerblue;
+
+
+.user_message {
+  align-self: flex-start;
+  background-color: #334155;
+  padding: 10px 15px;
+  border-radius: 10px;
+  max-width: 60%;
+}
+
+
+.sender_message {
+  align-self: flex-end;
+  background-color: #2563eb;
+  padding: 10px 15px;
+  border-radius: 10px;
+  max-width: 60%;
+}
+
+
+.message_area {
   height: 10vh;
+  display: flex;
+  align-items: center;
+  background-color: #020617;
 }
 
-#text_area{
-  width: 55vw;
-  border-radius: 35px;
+.text_area {
+  flex: 1;
   margin: 10px;
-  display: flex;
-}
-
-#text_area::placeholder{
-  color: aliceblue;
-}
-
-#attaches{
-  background-color: beige;
-  color: black;
-  width:10% ;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-#send{
-  width: 10%;
-  background-color: beige;
-  color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-#user_message{
-  height: 5vh;
-  display: flex;
-  align-items: center;
-  padding: 10px; 
-  background-color: rgb(84, 84, 84);
-  color: rgb(215, 209, 209);
-}
-
-#sender_message{
-  display: flex;
-  background-color: rgb(84, 84, 84);
-  color: rgb(215, 209, 209);
-  height: 5vh;
-  align-items: center;
-  justify-content: end;
   padding: 10px;
+  border-radius: 20px;
+  resize: none;
+}
+
+.attaches,
+.send {
+  width: 80px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #1e293b;
 }

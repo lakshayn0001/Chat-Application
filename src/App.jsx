@@ -1,59 +1,48 @@
 import React from 'react'
 import './App.css'
 
-const users=[
-  {username:'lakshay',message:'hi there'},
-  {username:'lakshay',message:'hi there'},
+const users = [
+  { username: 'lakshay' },
+  { username: 'rohit' }
 ]
 
-const data=[
-  {userdata:'hello',senderdata:'bdiya bhai'},
-  {userdata:'hello',senderdata:'bdiya bhai'},
-  {userdata:'hello',senderdata:'bdiya bhai'},
-  {userdata:'hello',senderdata:'bdiya bhai'},
-  {userdata:'hello',senderdata:'bdiya bhai'},
-  {userdata:'hello',senderdata:'bdiya bhai'},
-  {userdata:'hello',senderdata:'bdiya bhai'},
-  {userdata:'hello',senderdata:'bdiya bhai'},
-  {userdata:'hello',senderdata:'bdiya bhai'},
-  {userdata:'hello',senderdata:'bdiya bhai'},
-  {userdata:'hello',senderdata:'bdiya bhai'},
-  {userdata:'hello',senderdata:'bdiya bhai'},
-  {userdata:'hello',senderdata:'bdiya bhai'},
-  {userdata:'hello',senderdata:'bdiya bhai'}
+const data = [
+  { from: 'user', text: 'hello' },
+  { from: 'sender', text: 'bdiya bhai' },
+  { from: 'user', text: 'kaise ho?' },
+  { from: 'sender', text: 'mast 😄' },
 ]
 
-const App=()=>{
-  return(
-    <div className='Applicationdiv'>
-      <div className='chat_option'>
-        
-          {users.map((value,index)=>(
-            <div id='users'>
-              <h1>{value.username}</h1>
-            </div>
+const App = () => {
+  return (
+    <div className="Applicationdiv">
+      <div className="chat_option">
+        {users.map((value, index) => (
+          <div className="users" key={index}>
+            <h3>{value.username}</h3>
+          </div>
         ))}
-            
+      </div>
+      <div className="chatarea">
+
+        <div className="chatmessages_area">
+          {data.map((msg, index) => (
+            <div
+              key={index}
+              className={msg.from === 'user' ? 'user_message' : 'sender_message'}
+            >
+              {msg.text}
+            </div>
+          ))}
         </div>
-      <div className='chatarea'>
-        <div id='chatmessages_area'>
-          
-            {data.map((value,index)=>
-              <div id='user_message'>{value.userdata}</div>
-            )}
-            {data.map((value,index)=>
-              <div id='sender_message'>{value.senderdata}</div>
-            )}
-          
-        </div>
-        <div id='message_area'>
-          <div id='attaches'>attachs</div>
-          <textarea id='text_area' placeholder='write your text here'/>
-          <div id='send'>Send</div>
+        <div className="message_area">
+          <div className="attaches">📎</div>
+          <textarea className="text_area" placeholder="write your text here" />
+          <div className="send">Send</div>
         </div>
       </div>
-      </div>
+    </div>
   )
 }
 
-export default App;
+export default App
