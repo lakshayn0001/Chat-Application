@@ -1,0 +1,97 @@
+.Applicationdiv{
+  background-color: black;
+  color: aliceblue;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+html{
+  box-sizing: border-box;
+}
+
+.chat_option{
+  background-color: aqua;
+  color: black;
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+
+}
+#users{
+  background-color: antiquewhite;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  height: 10vh;
+}
+#users h1{
+  margin: 10px;
+  background-color: aquamarine;
+}
+
+#chatmessages_area{
+  height: 90vh;
+  background-color: cadetblue;
+  display: flex;
+  width: 70vw;
+  flex-direction: column;
+  overflow-y: auto;
+}
+#message_area{
+  display: flex;
+  background-color:cornflowerblue;
+  height: 10vh;
+}
+
+#text_area{
+  width: 55vw;
+  border-radius: 35px;
+  margin: 10px;
+  display: flex;
+}
+
+#text_area::placeholder{
+  color: aliceblue;
+}
+
+#attaches{
+  background-color: beige;
+  color: black;
+  width:10% ;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+#send{
+  width: 10%;
+  background-color: beige;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+#user_message{
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  padding: 10px; 
+  background-color: rgb(84, 84, 84);
+  color: rgb(215, 209, 209);
+}
+
+#sender_message{
+  display: flex;
+  background-color: rgb(84, 84, 84);
+  color: rgb(215, 209, 209);
+  height: 5vh;
+  align-items: center;
+  justify-content: end;
+  padding: 10px;
+}
