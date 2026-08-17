@@ -2,8 +2,10 @@
 
 import { ChangeEvent, FormEvent, useState } from "react"
 import './page.css'
+import { useRouter } from "next/navigation"
 
 const sign_up =()=>{
+    const router = useRouter()
     const [value,setValue]=useState({
         username:"",
         email:"",
@@ -13,27 +15,58 @@ const sign_up =()=>{
     const handleSubmit=(e:ChangeEvent<HTMLInputElement>)=>{
         e.preventDefault()
         const {name,value}=e.target
-        console.log("target",e.target)
         setValue((prev)=>({...prev,[name]:value}))
     }
 
-    function checker(){
-        const emptyCheck= Object.entries(value).find((key,value)=>(value))
-        console.log(emptyCheck)
-        return false
-    }
-    const handleform=(e:FormEvent<HTMLFormElement>)=>{
-        e.preventDefault()
-        if (checker() == false){
-            alert("error")
-            return 
+    function hasEmptyField(){
+        const check = Object.values(value).some((value)=>!value.trim().length >0)
+
+        if(value.password.length < 6){
+            alert("Password Must be have at Least 6 Digit")
+            throw new Error("Password Must be have at Least 6 Digit")
         }
-        console.log("Submit",value)
+        return check
+    }
+    const handleform=async(e:FormEvent<HTMLFormElement>)=>{
+        e.preventDefault()
+        
+        if (hasEmptyField() == false){
+            try{
+                const res= await fetch("/api/auth/register",
+                    {method:"POST",
+                        headers:{"Content-Type":"application/json"},
+                        body:JSON.stringify({
+                            username:value.username,
+                            email:value.email,
+                            password:value.password
+                        })})
+
+                console.log(res)
+                const data= await res.json()
+
+                console.log("data",data)
+                if (res.status != 200){
+                    alert("Failed to Login")
+                    alert(data.error)
+                    return
+                }
+                alert(data.message)
+                router.push("/login")
+            }catch(err: any){
+                console.log(err)
+            }
+
+            console.log("Submit",value)
         setValue({
             username:"",
             email:"",
             password:""
         })
+        return
+        }
+        alert("error")
+        return
+        
     }
 
     return(

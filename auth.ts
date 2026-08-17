@@ -1,0 +1,49 @@
+import {PrismaAdapter} from '@auth/prisma-adapter'
+import NextAuth from  'next-auth'
+import { prisma } from './lib/prisma'
+import Credentials from 'next-auth/providers/credentials'
+import bcrypt from 'bcryptjs'
+
+
+export const {signIn,signOut,handlers,auth} = NextAuth({
+    adapter: PrismaAdapter(prisma),
+    session:{strategy:'jwt'},
+    pages:{signIn:"/login"},
+    providers:[
+        Credentials(
+            {name:"credentials",
+            credentials:{
+                email:{label:"email",type:'email'},
+                password:{label:"password",type:"password"}
+            }, async authorize(credentials){
+                if (!credentials?.email || !credentials?.password){
+                    return null
+                }
+                const email = credentials.email as string
+                const password = credentials.password as string
+
+                const user = await prisma.user.findUnique({where:{email}})
+
+                if(!user){
+                    return null
+                }
+
+                const isValid = await bcrypt.compare(password,user.passwordHash)
+                if(!isValid){
+                    return null
+                }
+                
+                return {
+                    id: user.id.toString(),
+                    email:user.email,
+                    name:user.username
+                }
+
+            }
+        }
+    )
+    
+    ]
+
+
+})
