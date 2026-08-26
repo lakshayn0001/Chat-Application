@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import UserProfile from "./UserProfile"
 import {User} from "next-auth"
+import { signOut, useSession } from "next-auth/react"
 
 interface UserDropDownProps {
     user?: User | null
@@ -11,13 +12,18 @@ interface UserDropDownProps {
 
 export default function UserDropDown({ user }: UserDropDownProps) {
 
-    console.log(user?.name)
+    console.log("user",user?.name)
 
     const [open, setOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
     const router = useRouter()
+    const {status}= useSession()
+    
 
     useEffect(() => {
+        if(status == "unauthenticated"){
+            router.push('/login')
+        }
         function handleClickOutside(e: MouseEvent) {
             console.log("dropdown ref", dropdownRef)
             if(dropdownRef.current && !dropdownRef.current.contains(e?.target as Node)){
@@ -30,7 +36,9 @@ export default function UserDropDown({ user }: UserDropDownProps) {
 
     const handleLogout = () => {
         setOpen(!open)
-        router.push('/login')
+        signOut({
+            callbackUrl:'/login'
+        })
     }
 
     return (

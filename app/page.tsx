@@ -2,12 +2,14 @@ import { auth } from "@/auth";
 import UserDropDown from "@/components/UserDropdown";
 
 
+
 export default async function Home() {
 
   const session = await auth()
   const fakeListofuser = ["john", "michael", "justin", "tomholan"]
+ 
 
-  console.log(session)
+  console.log("session",session)
   return (
     <div className="grid grid-cols-[280px_1fr] grid-rows-[64px_1fr] h-screen w-full bg-slate-950 text-slate-100 font-sans overflow-hidden">
       <div className="col-span-2 border-b border-slate-800 bg-slate-900/60 backdrop-blur-md flex items-center justify-between px-6 font-semibold text-slate-200">
