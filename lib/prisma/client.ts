@@ -51,3 +51,8 @@ export type User = Prisma.UserModel
  * 
  */
 export type Message = Prisma.MessageModel
+/**
+ * Model FriendRequest
+ * 
+ */
+export type FriendRequest = Prisma.FriendRequestModel

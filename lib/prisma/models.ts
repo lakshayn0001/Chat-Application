@@ -10,4 +10,5 @@
  */
 export type * from './models/User'
 export type * from './models/Message'
+export type * from './models/FriendRequest'
 export type * from './commonInputTypes'
