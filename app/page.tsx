@@ -21,6 +21,14 @@ interface PendingRequest{
   sender:UserProfile;
 }
 
+interface Message{
+  id:string;
+  content:string;
+  senderId:number;
+  receiverId:number;
+  createdAt:string;
+}
+
 
 export default  function Home() {
 
@@ -32,6 +40,8 @@ export default  function Home() {
   const [searchResult,setSearchResult]=useState<UserProfile[]>([])
   const [selectedUser,setSelectedUser]=useState<UserProfile | null>(null)
   const [activeTab,setActivateTab]=useState<"chats" | "requests">("chats")
+  const [messages,setMessages]=useState<Message[]>([])
+  const [messageInput,setMessageInput]=useState("")
 
   const fetchPendingRequests =async()=>{
     try{
@@ -57,6 +67,53 @@ export default  function Home() {
       console.log("error fetching friends:",err)
     }
   }
+
+  const handleSendMessage= async()=>{
+    try{
+      const res= await fetch('/api/messages',{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        receiverId: selectedUser?.id,
+        content:messageInput
+      })
+    })
+    if(res.ok){
+      const data = await res.json()
+      setMessages((prev)=>[...prev,data.message])
+      setMessageInput("")
+    }else{
+      alert("Failed to send Message")
+    }
+    
+    }catch(err){
+      alert("Error Sending Message")
+    }
+  }
+
+  
+
+  useEffect(()=>{
+    if(!selectedUser){
+      setMessages([])
+      return
+    }
+
+    const fetchMessages= async ()=>{
+    try{
+      const res= await fetch(`/api/messages?receiverId=${selectedUser.id}`)
+      if(res.ok){
+        const data= await res.json()
+        setMessages(data.messages || [])
+      }
+    }
+    catch(err){
+      alert("Failed to load messages")
+    }
+  }
+
+  fetchMessages()
+  },[selectedUser])
 
   useEffect(()=>{
     if(session?.user){
@@ -189,7 +246,18 @@ export default  function Home() {
           <div className="flex-1 p-6 overflow-y-auto text-slate-400">
             <div>
               {selectedUser ? (
-                <p>No Messages yet with {selectedUser.username}</p>
+                messages.length === 0 ?(
+                  <p>No Messages yet with {selectedUser.username}</p>
+                ):(
+                  <div>
+                    {messages.map((m)=>(
+                      <div key={m.id}>
+                        <span>{m.senderId === Number(session?.user.id)? "You": `${selectedUser.username}`}</span>
+                        <span>{m.content}</span>
+                      </div>
+                    ))}
+                  </div>
+                )
               ):(
                 <p>Select a contact to view messages</p>
               )}
@@ -199,8 +267,17 @@ export default  function Home() {
         </div>
         <div className="p-4 border-t border-slate-800 bg-slate-900/40">
           <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-xl p-2 px-4 focus-within:border-indigo-500/50">
-            <input className="flex-1 bg-transparent text-sm text-slate-100 placeholder-slate-500 focus:outline-none" placeholder={selectedUser ?`Message ${selectedUser.username}...`: "select a friend to chat"} disabled={!selectedUser} />
-            <button className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-xs font-semibold transition-colors" disabled={!selectedUser}><h1>Send</h1></button>
+            <input className="flex-1 bg-transparent text-sm text-slate-100 placeholder-slate-500 focus:outline-none" 
+            placeholder={selectedUser ?`Message ${selectedUser.username}...`: "select a friend to chat"} 
+            disabled={!selectedUser} 
+            value={messageInput}
+            onChange={(e)=>setMessageInput(e.target.value)}
+            onKeyDown={(e)=>e.key === "Enter" && handleSendMessage()}
+            />
+            <button className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-xs font-semibold transition-colors" 
+            disabled={!selectedUser}
+            onClick={handleSendMessage}
+            ><h1>Send</h1></button>
           </div>
         </div>
       </div>

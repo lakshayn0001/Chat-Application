@@ -47,7 +47,7 @@ export async function GET(req:Request){
         const message=await prisma.message.findMany({
             where:{
                 OR:[
-                    {senderId:currentUserId,recieverId:currentUserId},
+                    {senderId:currentUserId,recieverId:receiverId},
                     {senderId:receiverId,recieverId:currentUserId}
                 ]
         },
@@ -56,7 +56,7 @@ export async function GET(req:Request){
         }
         }
     )
-        return NextResponse.json({message},{status:200})
+        return NextResponse.json({messages: message},{status:200})
 
 
 
