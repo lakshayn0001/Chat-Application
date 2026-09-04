@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  
+  db:
+    image: postgres:16-alpine
+    container_name: chatapp-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: chatapp123
+      POSTGRES_DB: chatapp
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  socket:
+    build:
+      context: .
+      dockerfile: Dockerfile.socket
+    container_name: chatapp-socket
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      CLIENT_URL: http://localhost:3000
+
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: chatapp-web
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - socket
+    environment:
+      DATABASE_URL: "postgresql://postgres:chatapp123@db:5432/chatapp?schema=public"
+      AUTH_SECRET: "vOUAtGRMMHN7U2sL3hO9Xj0gM6MEFI9ZiIS8iobs8DqeLjkCqAr19F583EecsGFty3XIeH87hGxBgMo5KZ+7ig=="
+      NEXT_PUBLIC_SOCKET_URL: "http://localhost:3001"
+
+volumes:
+  postgres_data:

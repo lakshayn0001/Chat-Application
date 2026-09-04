@@ -19,7 +19,7 @@ const sign_up =()=>{
     }
 
     function hasEmptyField(){
-        const check = Object.values(value).some((value)=>!value.trim().length >0)
+        const check = Object.values(value).some((value)=>!(value.trim().length > 0))
 
         if(value.password.length < 6){
             alert("Password Must be have at Least 6 Digit")

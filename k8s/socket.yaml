@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: socket-deployment
+  namespace: chat-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: socket
+  template:
+    metadata:
+      labels:
+        app: socket
+    spec:
+      containers:
+        - name: socket
+          image: chatapp-socket:latest
+          ports:
+            - containerPort: 3001
+          envFrom:
+            - configMapRef:
+                name: chatapp-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: socket-service
+  namespace: chat-app
+spec:
+  type: ClusterIP
+  selector:
+    app: socket
+  ports:
+    - port: 3001
+      targetPort: 3001

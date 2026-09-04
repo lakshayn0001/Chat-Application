@@ -3,7 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 
-export async function GET(){
+export const dynamic ="force-dynamic"
+export async function GET(req:Request){
     try{
         const sesion= await auth()
         if(!sesion?.user){
@@ -15,7 +16,7 @@ export async function GET(){
             return NextResponse.json({error:"Invalid error ID"},{status:400})
         }
 
-        const request = await prisma.friendRequest.findMany({
+        const requests = await prisma.friendRequest.findMany({
             where:{
                 receiverID: currentUserId,
                 status:"PENDING"
@@ -34,7 +35,7 @@ export async function GET(){
             }
         })
 
-        return NextResponse.json({request},{status:200})
+        return NextResponse.json({ requests },{status:200})
     }catch(err){
         return NextResponse.json({error:"Fail to fetch friend Request"})
     }
