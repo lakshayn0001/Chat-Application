@@ -62,7 +62,7 @@ const Login =()=>{
                 <button type="submit">Login</button>
 
                 <p style={{ marginTop: "24px", textAlign: "center", fontSize: "14px", color: "#a1a1aa" }}>
-                    Don't have account ?(" ") <Link 
+                    Don't have account ? <Link 
                     href="/sign-up"
                     style={{ color: "#a855f7", fontWeight: "600", textDecoration: "none" }}
                     >Sign-up</Link></p>
