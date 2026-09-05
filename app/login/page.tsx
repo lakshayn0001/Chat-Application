@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useState } from "react"
 import './page.css'
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import Link from 'next/link'
 
 
 const Login =()=>{
@@ -59,6 +60,12 @@ const Login =()=>{
                 onChange={handleData}
                 />
                 <button type="submit">Login</button>
+
+                <p style={{ marginTop: "24px", textAlign: "center", fontSize: "14px", color: "#a1a1aa" }}>
+                    Don't have account ?(" ") <Link 
+                    href="/sign-up"
+                    style={{ color: "#a855f7", fontWeight: "600", textDecoration: "none" }}
+                    >Sign-up</Link></p>
             </form>
         </div>
     )

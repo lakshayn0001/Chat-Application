@@ -3,6 +3,7 @@
 import { ChangeEvent, FormEvent, useState } from "react"
 import './page.css'
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 const sign_up =()=>{
     const router = useRouter()
@@ -94,6 +95,12 @@ const sign_up =()=>{
                 onChange={handleSubmit}
                 />
                 <button type="submit">Submit</button>
+                <p style={{ marginTop: "24px", textAlign: "center", fontSize: "14px", color: "#a1a1aa" }}>
+                    Already have an account?{" "}
+                    <Link href="/login" style={{ color: "#a855f7", fontWeight: "600", textDecoration: "none" }}>
+                        Login
+                    </Link>
+                </p>
             </form>
         </div>
     )
